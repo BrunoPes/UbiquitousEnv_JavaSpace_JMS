@@ -1,0 +1,168 @@
+15:03:52.236 INFO  [main] - Server accepting connections on tcp://10.2.4.125:3035/
+15:03:52.239 INFO  [main] - JNDI service accepting connections on tcp://10.2.4.125:3035/
+15:03:52.240 INFO  [main] - Admin service accepting connections on tcp://10.2.4.125:3035/
+15:03:52.262 INFO  [main] - Server accepting connections on rmi://10.2.4.125:1099/
+15:03:52.263 INFO  [main] - JNDI service accepting connections on rmi://10.2.4.125:1099/
+15:03:52.263 INFO  [main] - Admin service accepting connections on rmi://10.2.4.125:1099/
+15:42:33.080 INFO  [main] - Server accepting connections on tcp://10.2.4.125:3035/
+15:42:33.082 INFO  [main] - JNDI service accepting connections on tcp://10.2.4.125:3035/
+15:42:33.083 INFO  [main] - Admin service accepting connections on tcp://10.2.4.125:3035/
+15:42:33.106 INFO  [main] - Server accepting connections on rmi://10.2.4.125:1099/
+15:42:33.116 INFO  [main] - JNDI service accepting connections on rmi://10.2.4.125:1099/
+15:42:33.117 INFO  [main] - Admin service accepting connections on rmi://10.2.4.125:1099/
+14:45:56.768 INFO  [main] - Server accepting connections on tcp://10.2.1.215:3035/
+14:45:56.792 INFO  [main] - JNDI service accepting connections on tcp://10.2.1.215:3035/
+14:45:56.795 INFO  [main] - Admin service accepting connections on tcp://10.2.1.215:3035/
+14:45:56.942 INFO  [main] - Server accepting connections on rmi://10.2.1.215:1099/
+14:45:56.943 INFO  [main] - JNDI service accepting connections on rmi://10.2.1.215:1099/
+14:45:56.944 INFO  [main] - Admin service accepting connections on rmi://10.2.1.215:1099/
+19:03:22.563 INFO  [main] - Server accepting connections on tcp://127.0.1.1:3035/
+19:03:22.615 INFO  [main] - JNDI service accepting connections on tcp://127.0.1.1:3035/
+19:03:22.617 INFO  [main] - Admin service accepting connections on tcp://127.0.1.1:3035/
+19:03:23.071 INFO  [main] - Server accepting connections on rmi://127.0.1.1:1099/
+19:03:23.071 INFO  [main] - JNDI service accepting connections on rmi://127.0.1.1:1099/
+19:03:23.071 INFO  [main] - Admin service accepting connections on rmi://127.0.1.1:1099/
+09:56:20.741 INFO  [main] - Server accepting connections on tcp://127.0.1.1:3035/
+09:56:20.819 INFO  [main] - JNDI service accepting connections on tcp://127.0.1.1:3035/
+09:56:20.820 INFO  [main] - Admin service accepting connections on tcp://127.0.1.1:3035/
+09:56:21.146 INFO  [main] - Server accepting connections on rmi://127.0.1.1:1099/
+09:56:21.146 INFO  [main] - JNDI service accepting connections on rmi://127.0.1.1:1099/
+09:56:21.147 INFO  [main] - Admin service accepting connections on rmi://127.0.1.1:1099/
+05:44:49.913 INFO  [main] - Server accepting connections on tcp://192.168.25.18:3035/
+05:44:49.916 INFO  [main] - JNDI service accepting connections on tcp://192.168.25.18:3035/
+05:44:49.918 INFO  [main] - Admin service accepting connections on tcp://192.168.25.18:3035/
+05:44:50.021 INFO  [main] - Server accepting connections on rmi://192.168.25.18:1099/
+05:44:50.022 INFO  [main] - JNDI service accepting connections on rmi://192.168.25.18:1099/
+05:44:50.023 INFO  [main] - Admin service accepting connections on rmi://192.168.25.18:1099/
+06:19:31.176 ERROR [AWT-EventQueue-0] - Failed to get pooled connection
+org.exolab.jms.persistence.PersistenceException: 
+org.apache.commons.dbcp.SQLNestedException: Cannot create PoolableConnectionFactory (Failed to start database 'openjmsdb', see the next exception for details.)
+	at org.apache.commons.dbcp.BasicDataSource.createDataSource(BasicDataSource.java:855)
+	at org.apache.commons.dbcp.BasicDataSource.getConnection(BasicDataSource.java:540)
+	at org.exolab.jms.persistence.DBCPConnectionManager.getConnection(DBCPConnectionManager.java:121)
+	at org.exolab.jms.persistence.RDBMSAdapter.getConnection(RDBMSAdapter.java:696)
+	at org.exolab.jms.persistence.RDBMSAdapter.<init>(RDBMSAdapter.java:177)
+	at org.exolab.jms.persistence.DatabaseService.createAdapter(DatabaseService.java:311)
+	at org.exolab.jms.persistence.DatabaseService.doStart(DatabaseService.java:240)
+	at org.exolab.jms.service.Service.start(Service.java:97)
+	at org.exolab.jms.tools.admin.OfflineConnection.<init>(OfflineConnection.java:111)
+	at org.exolab.jms.tools.admin.AdminMgr.offlineConnect(AdminMgr.java:343)
+	at org.exolab.jms.tools.admin.AdminMgr.access$600(AdminMgr.java:112)
+	at org.exolab.jms.tools.admin.AdminMgr$7.actionPerformed(AdminMgr.java:527)
+	at javax.swing.AbstractButton.fireActionPerformed(AbstractButton.java:2022)
+	at javax.swing.AbstractButton$Handler.actionPerformed(AbstractButton.java:2348)
+	at javax.swing.DefaultButtonModel.fireActionPerformed(DefaultButtonModel.java:402)
+	at javax.swing.DefaultButtonModel.setPressed(DefaultButtonModel.java:259)
+	at javax.swing.AbstractButton.doClick(AbstractButton.java:376)
+	at javax.swing.plaf.basic.BasicMenuItemUI.doClick(BasicMenuItemUI.java:833)
+	at javax.swing.plaf.basic.BasicMenuItemUI$Handler.mouseReleased(BasicMenuItemUI.java:877)
+	at java.awt.AWTEventMulticaster.mouseReleased(AWTEventMulticaster.java:289)
+	at java.awt.Component.processMouseEvent(Component.java:6533)
+	at javax.swing.JComponent.processMouseEvent(JComponent.java:3324)
+	at java.awt.Component.processEvent(Component.java:6298)
+	at java.awt.Container.processEvent(Container.java:2236)
+	at java.awt.Component.dispatchEventImpl(Component.java:4889)
+	at java.awt.Container.dispatchEventImpl(Container.java:2294)
+	at java.awt.Component.dispatchEvent(Component.java:4711)
+	at java.awt.LightweightDispatcher.retargetMouseEvent(Container.java:4888)
+	at java.awt.LightweightDispatcher.processMouseEvent(Container.java:4525)
+	at java.awt.LightweightDispatcher.dispatchEvent(Container.java:4466)
+	at java.awt.Container.dispatchEventImpl(Container.java:2280)
+	at java.awt.Window.dispatchEventImpl(Window.java:2746)
+	at java.awt.Component.dispatchEvent(Component.java:4711)
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:758)
+	at java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.awt.EventQueue$3.run(EventQueue.java:709)
+	at java.awt.EventQueue$3.run(EventQueue.java:703)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:80)
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:90)
+	at java.awt.EventQueue$4.run(EventQueue.java:731)
+	at java.awt.EventQueue$4.run(EventQueue.java:729)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:80)
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:728)
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:201)
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:116)
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:105)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:93)
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:82)
+Caused by: SQL Exception: Failed to start database 'openjmsdb', see the next exception for details.
+	at org.apache.derby.impl.jdbc.Util.newEmbedSQLException(Unknown Source)
+	at org.apache.derby.impl.jdbc.Util.newEmbedSQLException(Unknown Source)
+	at org.apache.derby.impl.jdbc.Util.generateCsSQLException(Unknown Source)
+	at org.apache.derby.impl.jdbc.EmbedConnection.newSQLException(Unknown Source)
+	at org.apache.derby.impl.jdbc.EmbedConnection.bootDatabase(Unknown Source)
+	at org.apache.derby.impl.jdbc.EmbedConnection.<init>(Unknown Source)
+	at org.apache.derby.impl.jdbc.EmbedConnection30.<init>(Unknown Source)
+	at org.apache.derby.jdbc.Driver30.getNewEmbedConnection(Unknown Source)
+	at org.apache.derby.jdbc.InternalDriver.connect(Unknown Source)
+	at org.apache.commons.dbcp.DriverConnectionFactory.createConnection(DriverConnectionFactory.java:37)
+	at org.apache.commons.dbcp.PoolableConnectionFactory.makeObject(PoolableConnectionFactory.java:290)
+	at org.apache.commons.dbcp.BasicDataSource.validateConnectionFactory(BasicDataSource.java:877)
+	at org.apache.commons.dbcp.BasicDataSource.createDataSource(BasicDataSource.java:851)
+	... 50 more
+06:19:31.210 ERROR [AWT-EventQueue-0] - Database Error: Failed to get pooled connection
+org.exolab.jms.tools.admin.OfflineConnectionException: Database Error: Failed to get pooled connection
+	at org.exolab.jms.tools.admin.OfflineConnection.<init>(OfflineConnection.java:127)
+	at org.exolab.jms.tools.admin.AdminMgr.offlineConnect(AdminMgr.java:343)
+	at org.exolab.jms.tools.admin.AdminMgr.access$600(AdminMgr.java:112)
+	at org.exolab.jms.tools.admin.AdminMgr$7.actionPerformed(AdminMgr.java:527)
+	at javax.swing.AbstractButton.fireActionPerformed(AbstractButton.java:2022)
+	at javax.swing.AbstractButton$Handler.actionPerformed(AbstractButton.java:2348)
+	at javax.swing.DefaultButtonModel.fireActionPerformed(DefaultButtonModel.java:402)
+	at javax.swing.DefaultButtonModel.setPressed(DefaultButtonModel.java:259)
+	at javax.swing.AbstractButton.doClick(AbstractButton.java:376)
+	at javax.swing.plaf.basic.BasicMenuItemUI.doClick(BasicMenuItemUI.java:833)
+	at javax.swing.plaf.basic.BasicMenuItemUI$Handler.mouseReleased(BasicMenuItemUI.java:877)
+	at java.awt.AWTEventMulticaster.mouseReleased(AWTEventMulticaster.java:289)
+	at java.awt.Component.processMouseEvent(Component.java:6533)
+	at javax.swing.JComponent.processMouseEvent(JComponent.java:3324)
+	at java.awt.Component.processEvent(Component.java:6298)
+	at java.awt.Container.processEvent(Container.java:2236)
+	at java.awt.Component.dispatchEventImpl(Component.java:4889)
+	at java.awt.Container.dispatchEventImpl(Container.java:2294)
+	at java.awt.Component.dispatchEvent(Component.java:4711)
+	at java.awt.LightweightDispatcher.retargetMouseEvent(Container.java:4888)
+	at java.awt.LightweightDispatcher.processMouseEvent(Container.java:4525)
+	at java.awt.LightweightDispatcher.dispatchEvent(Container.java:4466)
+	at java.awt.Container.dispatchEventImpl(Container.java:2280)
+	at java.awt.Window.dispatchEventImpl(Window.java:2746)
+	at java.awt.Component.dispatchEvent(Component.java:4711)
+	at java.awt.EventQueue.dispatchEventImpl(EventQueue.java:758)
+	at java.awt.EventQueue.access$500(EventQueue.java:97)
+	at java.awt.EventQueue$3.run(EventQueue.java:709)
+	at java.awt.EventQueue$3.run(EventQueue.java:703)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:80)
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:90)
+	at java.awt.EventQueue$4.run(EventQueue.java:731)
+	at java.awt.EventQueue$4.run(EventQueue.java:729)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.security.ProtectionDomain$JavaSecurityAccessImpl.doIntersectionPrivilege(ProtectionDomain.java:80)
+	at java.awt.EventQueue.dispatchEvent(EventQueue.java:728)
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(EventDispatchThread.java:201)
+	at java.awt.EventDispatchThread.pumpEventsForFilter(EventDispatchThread.java:116)
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(EventDispatchThread.java:105)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:101)
+	at java.awt.EventDispatchThread.pumpEvents(EventDispatchThread.java:93)
+	at java.awt.EventDispatchThread.run(EventDispatchThread.java:82)
+06:23:27.027 INFO  [main] - Server accepting connections on tcp://192.168.25.18:3035/
+06:23:27.029 INFO  [main] - JNDI service accepting connections on tcp://192.168.25.18:3035/
+06:23:27.031 INFO  [main] - Admin service accepting connections on tcp://192.168.25.18:3035/
+06:23:27.189 INFO  [main] - Server accepting connections on rmi://192.168.25.18:1099/
+06:23:27.190 INFO  [main] - JNDI service accepting connections on rmi://192.168.25.18:1099/
+06:23:27.191 INFO  [main] - Admin service accepting connections on rmi://192.168.25.18:1099/
+10:56:06.558 INFO  [main] - Server accepting connections on tcp://192.168.25.18:3035/
+10:56:06.560 INFO  [main] - JNDI service accepting connections on tcp://192.168.25.18:3035/
+10:56:06.562 INFO  [main] - Admin service accepting connections on tcp://192.168.25.18:3035/
+10:56:06.696 INFO  [main] - Server accepting connections on rmi://192.168.25.18:1099/
+10:56:06.696 INFO  [main] - JNDI service accepting connections on rmi://192.168.25.18:1099/
+10:56:06.697 INFO  [main] - Admin service accepting connections on rmi://192.168.25.18:1099/
+11:49:53.586 INFO  [main] - Server accepting connections on tcp://192.168.25.18:3035/
+11:49:53.602 INFO  [main] - JNDI service accepting connections on tcp://192.168.25.18:3035/
+11:49:53.602 INFO  [main] - Admin service accepting connections on tcp://192.168.25.18:3035/
+11:49:53.711 INFO  [main] - Server accepting connections on rmi://192.168.25.18:1099/
+11:49:53.711 INFO  [main] - JNDI service accepting connections on rmi://192.168.25.18:1099/
+11:49:53.711 INFO  [main] - Admin service accepting connections on rmi://192.168.25.18:1099/

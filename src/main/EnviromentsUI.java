@@ -1,14 +1,44 @@
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
+import java.util.HashMap;
+
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.text.DefaultCaret;
 
-public class EnviromentsUI extends JFrame implements MouseListener, KeyListener {
-	private ArrayList<String> envTexts;
-	private ArrayList<String> devTexts;
+public class EnviromentsUI extends JFrame implements MouseListener, ActionListener  {
+	private static final long serialVersionUID = 1L;
+	
+	private EnviromentManager manager;
+	private ArrayList<String> envTexts = new ArrayList<String>();
+	private ArrayList<String> devTexts = new ArrayList<String>();
+	private HashMap<String, ArrayList<String>> logEnvs = new HashMap<String, ArrayList<String>>();
+	
+	private JTextArea envArea;
+	private JTextArea devArea;
+	private JTextArea logArea;
+	private JComboBox<String> logSelector;
+	
 	private JButton[] envBtns = {
-		new JButton("Novo Amb."),
+		new JButton("Criar Amb."),
 		new JButton("Remover Amb.")
 	};
 	private JButton[] devBtns = {
@@ -16,11 +46,10 @@ public class EnviromentsUI extends JFrame implements MouseListener, KeyListener 
 		new JButton("Remover Disp."),
 		new JButton("Transferir Disp.")
 	};
-	private JTextArea enviroments;
-	private JTextArea devices;
-
+	
 	public EnviromentsUI(int width, int height) {
-		super("JavaSpace - Ambiente Ub√≠quo");
+		super("JavaSpace - Ambiente Ubiquo");
+		this.manager = new EnviromentManager(this);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setBounds(100, 100, width, height);
         this.getContentPane().setLayout(null);
@@ -29,87 +58,326 @@ public class EnviromentsUI extends JFrame implements MouseListener, KeyListener 
 
 		JScrollPane scrollPane = new JScrollPane();
         scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-		scrollPane.setMinimumSize(new Dimension((width/2), 100));
-        scrollPane.setMaximumSize(new Dimension((width/2), 100));
-        // scrollPane.setLocation(10, 10);
-        // scrollPane.setAlignmentX(Component.LEFT_ALIGNMENT);
-        JLabel logLabel = new JLabel("Ambientes");
+        scrollPane.setMaximumSize(new Dimension(300-30, 200));
+        JLabel logLabel = new JLabel("Ambientes <nome, qtd_dispositivos>");
         logLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
         logLabel.setBackground(Color.BLACK);
         logLabel.setForeground(Color.BLUE);
-		this.enviroments = new JTextArea();
-		this.enviroments.setEditable(false);
-		this.enviroments.setText("asd");
-		this.enviroments.setLineWrap(true);
-		// this.enviroments.setMaximumSize(new Dimension((width/2)-10,100));
-		this.enviroments.setBackground(Color.RED);
-		((DefaultCaret)this.enviroments.getCaret()).setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
-		scrollPane.setViewportView(this.enviroments);
+		this.envArea = new JTextArea();
+		this.envArea.setEditable(false);
+		this.envArea.setText("Nenhum Ambiente Criado");
+		this.envArea.setLineWrap(true);
+		this.envArea.setBackground(Color.WHITE);
+		((DefaultCaret)this.envArea.getCaret()).setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
+		scrollPane.setViewportView(this.envArea);
 		scrollPane.setColumnHeaderView(logLabel);
-
-		JScrollPane scrollPane2 = new JScrollPane();
-        scrollPane2.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        scrollPane2.setMaximumSize(new Dimension(293, 200));
-        // scrollPane2.setLocation(10, 10);
-        scrollPane2.setAlignmentX(Component.LEFT_ALIGNMENT);
-        JLabel logLabel2 = new JLabel("Dispositivos");
-        logLabel2.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
-        logLabel2.setBackground(Color.BLACK);
-        logLabel2.setForeground(Color.BLUE);
-		this.devices = new JTextArea();
-		this.devices.setEditable(false);
-		this.devices.setText("");
-		this.devices.setLineWrap(true);
-		this.devices.setMaximumSize(new Dimension(293, 180));
-		((DefaultCaret)this.devices.getCaret()).setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
-		scrollPane2.setViewportView(this.devices);
-		scrollPane2.setColumnHeaderView(logLabel2);
-
 		JPanel envPanel = new JPanel();
         envPanel.setLayout(new BoxLayout(envPanel, BoxLayout.Y_AXIS));
         envPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
         envPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
         envPanel.setBackground(Color.WHITE);
-        envPanel.setBounds(0,0,(width/2),height);
+        envPanel.setBounds(0,0,272,height);
 		JPanel envBtnsPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 6, 10));
 		envBtnsPanel.setBackground(Color.WHITE);
-		envBtnsPanel.setMaximumSize(new Dimension((width/2), 50));
+		envBtnsPanel.setMaximumSize(new Dimension(270, 50));
 		for(JButton button : this.envBtns) {
-			// button.setMaximumSize(new Dimension(30, 25));
+			button.addMouseListener(this);
 			envBtnsPanel.add(button);
 		}
-		envPanel.add(envBtnsPanel);
 		envPanel.add(scrollPane, BorderLayout.CENTER);
+		envPanel.add(envBtnsPanel);
+
+
+		JScrollPane scrollPane2 = new JScrollPane();
+        scrollPane2.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollPane2.setMaximumSize(new Dimension(300-30, 200));
+        JLabel logLabel2 = new JLabel("Dispositivos <nome, ambiente>");
+        logLabel2.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
+        logLabel2.setBackground(Color.BLACK);
+        logLabel2.setForeground(Color.BLUE);
+		this.devArea = new JTextArea();
+		this.devArea.setEditable(false);
+		this.devArea.setText("Nenhum Dispositivo Criado");
+		this.devArea.setLineWrap(true);
+		this.devArea.setBackground(Color.WHITE);
+		((DefaultCaret)this.devArea.getCaret()).setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
+		scrollPane2.setViewportView(this.devArea);
+		scrollPane2.setColumnHeaderView(logLabel2);
+		JPanel devPanel = new JPanel();
+        devPanel.setLayout(new BoxLayout(devPanel, BoxLayout.Y_AXIS));
+        devPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        devPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
+        devPanel.setBackground(Color.WHITE);
+        devPanel.setBounds(274,0,273,height);
+		JPanel devBtnsPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 6, 10));
+		devBtnsPanel.setBackground(Color.WHITE);
+		devBtnsPanel.setMaximumSize(new Dimension(300, 100));
+		for(JButton button : this.devBtns) {
+			button.addMouseListener(this);
+			devBtnsPanel.add(button);
+		}
+		devPanel.add(scrollPane2, BorderLayout.CENTER);
+		devPanel.add(devBtnsPanel);
+		
+		
+		JScrollPane scrollPane3 = new JScrollPane();
+        scrollPane3.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollPane3.setMaximumSize(new Dimension(200, 275));
+        this.logSelector = new JComboBox<String>(new String[]{"Escolha um log"});
+        this.logSelector.addActionListener(this);
+		this.logArea = new JTextArea("Nenhum log selecionado");
+		this.logArea.setEditable(false);
+		this.logArea.setText("Nenhum Log");
+		this.logArea.setLineWrap(true);
+		this.logArea.setBackground(Color.WHITE);
+		((DefaultCaret)this.logArea.getCaret()).setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
+		scrollPane3.setViewportView(this.logArea);
+		scrollPane3.setColumnHeaderView(logSelector);
+		JPanel logPanel = new JPanel();
+        logPanel.setLayout(new BoxLayout(logPanel, BoxLayout.Y_AXIS));
+        logPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        logPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
+        logPanel.setBackground(Color.WHITE);
+        logPanel.setBounds(550,0,200,height);
+        logPanel.add(scrollPane3);
 
 		this.getContentPane().add(envPanel);
-		// this.getContentPane().add(this.devices);
+		this.getContentPane().add(devPanel);
+		this.getContentPane().add(logPanel);
 		this.setVisible(true);
 	}
 
-	public void keyPressed(KeyEvent e) {
-		int keyCode = e.getKeyCode();
-		if(keyCode == 10) { //Enter
-        }
+	private void updateInterface() {
+		try {
+			String envTxt = "";
+			String devTxt = "";
+			this.envArea.setText("Nenhum Ambiente Criado");
+			this.devArea.setText("Nenhum Dispositivo Criado");
+			this.envTexts.clear();
+			this.devTexts.clear();
+			
+			for(EnviromentCoordinator env : this.manager.getAllEnviroments()) {
+				String envLbl = "<"+env.enviromentName+","+env.totalDevices+">";
+				this.envTexts.add(envLbl);
+				envTxt += envLbl+"\n";
+				
+			}
+			
+			for(Device dev : this.manager.getAllDevices()) {
+				String devLbl = "<"+dev.deviceName+","+dev.enviromentName+">";
+				this.devTexts.add(devLbl);
+				devTxt += devLbl+"\n";
+			}
+			
+			if(envTxt.length() > 0) this.envArea.setText(envTxt);
+			if(devTxt.length() > 0) this.devArea.setText(devTxt);
+			this.envArea.updateUI();
+			this.devArea.updateUI();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void updateLogEnvs(String envName, String msg) {
+		System.out.println("Update: " + msg);
+		this.logEnvs.get(envName).add(msg);
+		this.updateLogText(envName);
+	}
+	
+	public void updateLogText(String selected) {
+		if(!((String)this.logSelector.getSelectedItem()).equals(selected)) {
+			return;
+		}
+		String txt = "";
+		for(String msg : this.logEnvs.get(selected)) {
+			txt += msg + "\n";
+		}
+		this.logArea.setText(txt);
+		this.logArea.updateUI();
+	}
+	
+	private void alertShow(String title, String msg) {
+		JOptionPane.showMessageDialog(this, msg, title, JOptionPane.WARNING_MESSAGE);
+	}
+
+	private String alertInput(String title, String msg, String[] list) {
+		try {
+			return (String)JOptionPane.showInputDialog(this, msg, title, JOptionPane.QUESTION_MESSAGE, null, list, list[0]);	
+		} catch(Exception e) {
+			this.alertShow("Erro", "Tente novamente");
+		}
+		
+		return "";
+	}
+	
+	private String[] removeFromArray(String[] array, String toRemove) {
+		int j=0;
+		String aux = "";
+		String[] newArr = new String[array.length-1];
+		System.out.println("To remove: " + toRemove);
+		
+		for(int i=0; i<array.length; i++) {
+			aux = array[i].split(",")[0].split("<")[1];
+			if(!aux.equals(toRemove)){
+				newArr[j++] = array[i];
+			}
+		}
+		return newArr;
+	}
+
+	@SuppressWarnings("unchecked")
+	public void actionPerformed(ActionEvent ev) {
+		if(ev.getSource() instanceof JComboBox) {
+			String envSelected = (String)((JComboBox<String>)ev.getSource()).getSelectedItem();
+			if(this.logEnvs.get(envSelected) != null) {
+				this.updateLogText(envSelected);
+			} else if(envSelected.trim().equals("Escolha um log")) {
+				this.logArea.setText("Escolha um log");
+				this.logArea.updateUI();
+			}
+		}
 	}
 
 	public void mousePressed(MouseEvent e) {
         if(e.getSource() instanceof JButton) {
         	JButton button = (JButton)e.getSource();
+        	
+        	String[] listEnvs = this.envTexts.toArray(new String[]{});
+        	String[] listDevs = this.devTexts.toArray(new String[]{});
+        	System.out.println("Env e devs: " + listEnvs.length + "  -  " + listDevs.length);
+        	
             switch(button.getText()) {
-				case "Novo Amb.": break;
+				case "Criar Amb.":
+					try {
+						String newEnv = "amb"+EnviromentManager.envId;
+						if(this.manager.createEnviroment(newEnv)) {
+							EnviromentManager.envId++;
+							this.logEnvs.put(newEnv, new ArrayList<String>());
+							this.logSelector.addItem(newEnv);
+							this.alertShow("CriaÁ„o de Ambiente", "Ambiente criado com sucesso!");
+						} else {
+							this.alertShow("Erro na CriaÁ„o", "Ocorreu algum erro e o ambiente n„o pÙde ser criado. :(");
+						}
+					} catch (Exception e1) {
+						e1.printStackTrace();
+					}
+					break;
+				case "Remover Amb.":
+					try{
+						if(listEnvs.length > 0){
+							String env = this.alertInput("Remover Ambiente", "Qual ambiente deseja remover?", listEnvs);
+							
+							if(env != null && env != "") {
+								env = env.split(",")[0].split("<")[1];
+								if(this.manager.removeEnviroment(env)) {
+									this.logEnvs.remove(env);
+									this.logSelector.removeItem(env);
+									this.alertShow("RemoÁ„o de Ambiente", "Ambiente removido com sucesso!");
+								} else {
+									this.alertShow("Erro na RemoÁ„o", "Ocorreu algum erro e o ambiente n„o pÙde ser removido. :(");
+								}
+							} else {
+								return;
+							}
+						} else {
+							this.alertShow("Nenhum Ambiente", "N„o existem ambientes para serem removidos");
+						}						
+					} catch(Exception e1){
+						e1.printStackTrace();
+					}
+
+					break;
+				case "Criar Disp.":
+					try {
+						if(listEnvs.length > 0) {
+							String env = this.alertInput("Criar Dispositvo", "Em qual ambiente deseja inserir o novo dispositivo?", listEnvs);
+							if(env != null && env != "") {
+								env = env.split(",")[0].split("<")[1];
+								if(this.manager.insertDevice("disp"+EnviromentManager.deviceId++, env)) {
+									this.alertShow("CriaÁ„o de Dispositivo", "Dispositivo criado com sucesso!");
+								} else {
+									this.alertShow("Erro na CriaÁ„o", "Ocorreu algum erro e o dispositivo n„o pÙde ser criado. :(");
+								}
+							} else {
+								return;
+							}
+						} else {
+							this.alertShow("Nenhum Ambiente", "N„o existem ambientes para receberem dispositivos");
+						}
+					} catch (Exception e1) {
+						e1.printStackTrace();
+					}
+					
+					break;
+				case "Remover Disp.":
+					try {
+						if(listDevs.length > 0) {
+							String dev = this.alertInput("Remover Dispositivo", "Qual dispositivo deseja remover?", listDevs);
+							if(dev != null && dev != "") {
+								dev = dev.split(",")[0].split("<")[1];
+								if(this.manager.removeDevice(dev)) {
+									this.alertShow("RemoÁ„o de Dispositivo", "Dispositivo removido com sucesso!");
+								} else {
+									this.alertShow("Erro na RemoÁ„o", "Ocorreu algum erro e o dispositivo n„o pÙde ser removido. :(");
+								}
+							} else {
+								return;
+							}
+						} else {
+							this.alertShow("Nenhum Dispositivo", "N„o existem dispositivos para serem removidos");
+						}
+					} catch (Exception e1) {
+						e1.printStackTrace();
+					}
+					break;
+				case "Transferir Disp.":
+					try {
+						if(listDevs.length > 0 && listEnvs.length > 1) {
+							String dev = this.alertInput("Transferir Dispositivo", "Qual dispositivo deseja transferir?", listDevs);
+							if(dev != null && dev != "") {
+								String excludeEnv = dev.split(",")[1].split(">")[0];
+								listEnvs = this.removeFromArray(listEnvs, excludeEnv);
+								dev = dev.split(",")[0].split("<")[1];
+								String env = this.alertInput("Transferir Dispositivo", "Qual o ambiente de destino?", listEnvs);
+								if(env != null && env != "") {
+									env = env.split(",")[0].split("<")[1];
+									if(this.manager.transferDevice(dev, env)) {
+										this.alertShow("TransferÍncia de Dispositivo", "Dispositivo transferido!");
+									} else if(env != null && env != "") {
+										this.alertShow("Erro na TransferÍncia", "Ocorreu algum erro e na transferÍncia. :(");
+									}
+								} else {
+									return;
+								}
+							} else {
+								return;
+							}
+						} else {
+							if(listEnvs.length == 1) {
+								this.alertShow("Ambientes insuficientes", "Para transferir um dispositivo crie mais ambientes");
+							} else {
+								this.alertShow("Nenhum Dispositivo", "N„o existem dispositivos para serem transferidos");	
+							}
+						}
+					} catch(Exception e1) {
+						e1.printStackTrace();
+					}
+					break;
 				default: break;
             }
+            
+            this.updateInterface();
         }
     }
 
-	public void keyReleased(KeyEvent e) {}
-    public void keyTyped(KeyEvent e) {}
     public void mouseEntered(MouseEvent e) {}
     public void mouseExited(MouseEvent e) {}
     public void mouseClicked(MouseEvent e) {}
     public void mouseReleased(MouseEvent e) {}
 
 	public static void main(String[] args) {
-		new EnviromentsUI(600, 400);
+		new EnviromentsUI(760, 308);
 	}
+
+
 }
